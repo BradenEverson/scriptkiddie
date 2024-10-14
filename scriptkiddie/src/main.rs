@@ -9,7 +9,8 @@ use scriptkiddie_parser::parser::Parser as ASTParser;
 /// The config for running scriptkiddie
 #[derive(Parser, Debug)]
 struct Config {
-    file: PathBuf
+    /// The path of the file to execute
+    file: PathBuf,
 }
 
 impl Config {
@@ -18,7 +19,8 @@ impl Config {
         let mut file = File::open(self.file).expect("The file supplied does not exist");
         let mut lines = String::new();
 
-        file.read_to_string(&mut lines).expect("Failed to read file!");
+        file.read_to_string(&mut lines)
+            .expect("Failed to read file!");
 
         lines
     }
