@@ -86,3 +86,22 @@ impl Iterator for Lexer {
         self.next_token()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::io::Read;
+
+    use super::Lexer;
+
+    #[test]
+    fn lexer_iterator_full_lexing() {
+        let mut input_file = std::fs::File::open("../test/simple.js").expect("Failed to read file");
+        let mut text = String::new();
+        input_file.read_to_string(&mut text).expect("Failed to read file");
+        
+        let lexer = Lexer::new(text);
+        let tokens: Vec<_> = lexer.collect();
+
+        panic!("{:?}", tokens)
+    }
+}
