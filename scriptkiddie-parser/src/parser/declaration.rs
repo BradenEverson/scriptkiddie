@@ -2,6 +2,4 @@
 
 use super::Parser;
 
-impl<'lex> Parser<'lex> {
-
-}
+impl<'lex> Parser<'lex> {}
