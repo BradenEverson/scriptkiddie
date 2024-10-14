@@ -25,7 +25,7 @@ pub enum TokenType {
     String(String),
     Keyword(Keyword),
     Operator(Operator),
-    Semicolon,
+    Punctuation(Punctuation)
 }
 
 /// A keyword token's variants
@@ -66,6 +66,7 @@ pub enum Operator {
     Gte,
     Lt,
     Lte,
+    Dot
 }
 
 impl Operator {
@@ -84,7 +85,38 @@ impl Operator {
             ">=" => Some(Operator::Gte),
             "<" => Some(Operator::Lt),
             "<=" => Some(Operator::Lte),
+            "." => Some(Operator::Dot),
             _ => None,
+        }
+    }
+}
+
+/// All punctuation types
+#[derive(Clone, Debug, PartialEq)]
+pub enum Punctuation {
+    Semicolon,
+    Comma,
+    OpenParen,
+    CloseParen,
+    OpenSquiggle,
+    CloseSquiggle,
+    OpenBracket,
+    CloseBracket
+}
+
+impl Punctuation {
+    /// Checks if a string is a valid punctuation mark, if so, returns the punctuation that it is
+    pub fn to_puncutation(check: &str) -> Option<Punctuation> {
+        match check {
+            ";" => Some(Punctuation::Semicolon),
+            "," => Some(Punctuation::Comma),
+            "(" => Some(Punctuation::OpenParen),
+            ")" => Some(Punctuation::CloseParen),
+            "{" => Some(Punctuation::OpenSquiggle),
+            "}" => Some(Punctuation::CloseSquiggle),
+            "[" => Some(Punctuation::OpenBracket),
+            "]" => Some(Punctuation::CloseBracket),
+            _ => None
         }
     }
 }

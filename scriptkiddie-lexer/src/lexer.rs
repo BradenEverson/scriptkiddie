@@ -5,6 +5,7 @@ use crate::token::Token;
 pub mod keyword;
 pub mod number;
 pub mod string;
+pub mod operator;
 pub mod whitespace_comments;
 
 /// The lexer struct responsible for reading a stream of text and converting it into tokens. Can be
@@ -30,8 +31,30 @@ impl Lexer {
         }
     }
 
-    pub fn next_token() -> Token {
-        todo!()
+    pub fn next_token(&mut self) -> Option<Token> {
+        let mut token = None;
+        while let Some(c) = self.current_char() {
+            if c.is_whitespace() {
+                self.skip_whitespace()
+            } else if c.is_alphabetic() || c == &'_' {
+                token = Some(self.collect_identifier_or_keyword());
+                break;
+            } else if c.is_ascii_digit() {
+                token = Some(self.collect_number());
+                break;
+            } else if c == &'"' || c == &'\'' {
+                token = Some(self.collect_string());
+                break;
+            } else if c == &'/' && self.peek_char() == Some(&'/') {
+                self.skip_single_line_comment()
+            } else if c == &'/' && self.peek_char() == Some(&'*') {
+                self.skip_single_line_comment()
+            } else {
+
+            }
+        }
+
+        token
     }
 
     /// Advances the lexer by 1 position, advancing line if need be
