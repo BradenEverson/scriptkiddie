@@ -4,7 +4,7 @@ use std::iter::Peekable;
 
 use scriptkiddie_lexer::{
     lexer::Lexer,
-    token::{Keyword, TokenType},
+    token::{Keyword, Token, TokenType},
 };
 
 use crate::ast::ASTNode;
@@ -21,6 +21,9 @@ pub enum AstParseError {
     /// Unexpected EOF error while parsing
     #[error("File ended while parsing midway through a statement")]
     UnexpectedEof,
+    /// When a token is not expected
+    #[error("Unexpected token {0:?}")]
+    UnexpectedToken(Token)
 }
 
 /// A parser that holds onto a mutable context of a Lexer
@@ -54,10 +57,9 @@ impl<'lex> Parser<'lex> {
                 TokenType::Keyword(Keyword::Let)
                 | TokenType::Keyword(Keyword::Const)
                 | TokenType::Keyword(Keyword::Var) => {
-                    todo!()
+                    self.parse_declaration()
                 }
-
-                _ => todo!(),
+                _ => self.parse_expression(),
             },
             None => Err(AstParseError::UnexpectedEof),
         }

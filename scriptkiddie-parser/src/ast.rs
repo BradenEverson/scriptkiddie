@@ -3,7 +3,7 @@
 use scriptkiddie_lexer::token::Operator;
 
 /// An ASTNode built from tokens
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum ASTNode {
     /// An entire program's span
     Program(Vec<ASTNode>),
@@ -45,7 +45,7 @@ pub enum ASTNode {
 }
 
 /// The scopes a variable can have
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum VariableKind {
     /// Let scope
     Let,
