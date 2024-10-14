@@ -50,7 +50,8 @@ impl Lexer {
             } else if c == &'/' && self.peek_char() == Some(&'*') {
                 self.skip_single_line_comment()
             } else {
-
+                token = Some(self.collect_operator_or_punctuation());
+                break;
             }
         }
 
@@ -76,5 +77,12 @@ impl Lexer {
     /// Peeks at the next char
     fn peek_char(&self) -> Option<&char> {
         self.input.get(self.pos + 1)
+    }
+}
+
+impl Iterator for Lexer {
+    type Item = Token;
+    fn next(&mut self) -> Option<Self::Item> {
+        self.next_token()
     }
 }
