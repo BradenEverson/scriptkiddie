@@ -5,7 +5,9 @@ version.workspace = true
 authors.workspace = true
 
 [dependencies]
-clap = "4.5.20"
+clap = { version = "4.5.20", features = ["derive"] }
+scriptkiddie-lexer = {path = "../scriptkiddie-lexer"}
+scriptkiddie-parser = {path = "../scriptkiddie-parser"}
 
 [lints]
 workspace = true
