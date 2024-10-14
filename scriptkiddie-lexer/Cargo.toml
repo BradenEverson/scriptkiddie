@@ -1,5 +1,5 @@
 [package]
-name = "scriptkiddie-parser"
+name = "scriptkiddie-lexer"
 edition = "2021"
 version.workspace = true
 authors.workspace = true
