@@ -13,7 +13,11 @@ pub struct Token {
 
 impl Token {
     pub fn new(token_type: TokenType, line: usize, column: usize) -> Self {
-        Self { token_type, line, column }
+        Self {
+            token_type,
+            line,
+            column,
+        }
     }
 }
 
@@ -25,7 +29,7 @@ pub enum TokenType {
     String(String),
     Keyword(Keyword),
     Operator(Operator),
-    Punctuation(Punctuation)
+    Punctuation(Punctuation),
 }
 
 /// A keyword token's variants
@@ -66,7 +70,13 @@ pub enum Operator {
     Gte,
     Lt,
     Lte,
-    Dot
+    Dot,
+    AddAssign,
+    SubAssign,
+    MulAssign,
+    DivAssign,
+    Inc,
+    Dec,
 }
 
 impl Operator {
@@ -86,6 +96,12 @@ impl Operator {
             "<" => Some(Operator::Lt),
             "<=" => Some(Operator::Lte),
             "." => Some(Operator::Dot),
+            "+=" => Some(Operator::AddAssign),
+            "-=" => Some(Operator::SubAssign),
+            "*=" => Some(Operator::MulAssign),
+            "/=" => Some(Operator::DivAssign),
+            "++" => Some(Operator::Inc),
+            "--" => Some(Operator::Dec),
             _ => None,
         }
     }
@@ -101,7 +117,7 @@ pub enum Punctuation {
     OpenSquiggle,
     CloseSquiggle,
     OpenBracket,
-    CloseBracket
+    CloseBracket,
 }
 
 impl Punctuation {
@@ -116,7 +132,7 @@ impl Punctuation {
             "}" => Some(Punctuation::CloseSquiggle),
             "[" => Some(Punctuation::OpenBracket),
             "]" => Some(Punctuation::CloseBracket),
-            _ => None
+            _ => None,
         }
     }
 }

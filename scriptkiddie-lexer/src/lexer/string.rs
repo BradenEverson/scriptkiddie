@@ -37,7 +37,7 @@ impl Lexer {
             todo!("Return error for unclosed string")
         }
 
-        Token::new(TokenType::String(result), self.line, start) 
+        Token::new(TokenType::String(result), self.line, start)
     }
 }
 

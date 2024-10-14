@@ -4,8 +4,8 @@ use crate::token::Token;
 
 pub mod keyword;
 pub mod number;
-pub mod string;
 pub mod operator;
+pub mod string;
 pub mod whitespace_comments;
 
 /// The lexer struct responsible for reading a stream of text and converting it into tokens. Can be
@@ -48,7 +48,7 @@ impl Lexer {
             } else if c == &'/' && self.peek_char() == Some(&'/') {
                 self.skip_single_line_comment()
             } else if c == &'/' && self.peek_char() == Some(&'*') {
-                self.skip_single_line_comment()
+                self.skip_multi_line_comment()
             } else {
                 token = Some(self.collect_operator_or_punctuation());
                 break;
@@ -99,8 +99,10 @@ mod tests {
     fn lexer_iterator_full_lexing() {
         let mut input_file = std::fs::File::open("../test/simple.js").expect("Failed to read file");
         let mut text = String::new();
-        input_file.read_to_string(&mut text).expect("Failed to read file");
-        
+        input_file
+            .read_to_string(&mut text)
+            .expect("Failed to read file");
+
         let lexer = Lexer::new(text);
         let tokens: Vec<_> = lexer.map(|token| token.token_type).collect();
 
@@ -110,13 +112,11 @@ mod tests {
             TokenType::Operator(Operator::Assignment),
             TokenType::Number(100.0),
             TokenType::Punctuation(Punctuation::Semicolon),
-
             TokenType::Keyword(Keyword::Let),
             TokenType::Identifier("b".to_string()),
             TokenType::Operator(Operator::Assignment),
             TokenType::Number(20.0),
             TokenType::Punctuation(Punctuation::Semicolon),
-
             TokenType::Keyword(Keyword::Let),
             TokenType::Identifier("c".to_string()),
             TokenType::Operator(Operator::Assignment),
@@ -124,6 +124,53 @@ mod tests {
             TokenType::Operator(Operator::Add),
             TokenType::Identifier("b".to_string()),
             TokenType::Punctuation(Punctuation::Semicolon),
+        ];
+
+        assert_eq!(tokens, should_be)
+    }
+
+    #[test]
+    fn lexer_tokenizes_string_types() {
+        let input = "let foo = \"Hello!\";".to_string();
+        let lexer = Lexer::new(input);
+
+        let tokens: Vec<_> = lexer.map(|token| token.token_type).collect();
+
+        let should_be = vec![
+            TokenType::Keyword(Keyword::Let),
+            TokenType::Identifier("foo".to_string()),
+            TokenType::Operator(Operator::Assignment),
+            TokenType::String("Hello!".to_string()),
+            TokenType::Punctuation(Punctuation::Semicolon),
+        ];
+
+        assert_eq!(tokens, should_be)
+    }
+
+    #[test]
+    fn lexer_tokenizes_punctuation() {
+        let input = "for (let i = 0; i < 10; i++) {}".to_string();
+        let lexer = Lexer::new(input);
+
+        let tokens: Vec<_> = lexer.map(|token| token.token_type).collect();
+
+        let should_be = vec![
+            TokenType::Keyword(Keyword::For),
+            TokenType::Punctuation(Punctuation::OpenParen),
+            TokenType::Keyword(Keyword::Let),
+            TokenType::Identifier("i".to_string()),
+            TokenType::Operator(Operator::Assignment),
+            TokenType::Number(0.0),
+            TokenType::Punctuation(Punctuation::Semicolon),
+            TokenType::Identifier("i".to_string()),
+            TokenType::Operator(Operator::Lt),
+            TokenType::Number(10.0),
+            TokenType::Punctuation(Punctuation::Semicolon),
+            TokenType::Identifier("i".to_string()),
+            TokenType::Operator(Operator::Inc),
+            TokenType::Punctuation(Punctuation::CloseParen),
+            TokenType::Punctuation(Punctuation::OpenSquiggle),
+            TokenType::Punctuation(Punctuation::CloseSquiggle),
         ];
 
         assert_eq!(tokens, should_be)

@@ -4,14 +4,26 @@ use crate::token::{Operator, Punctuation, Token, TokenType};
 
 use super::Lexer;
 
-
 impl Lexer {
     /// Collects an operator or punctuation token
     pub(crate) fn collect_operator_or_punctuation(&mut self) -> Token {
         let start = self.column;
         let mut c = self.current_char().unwrap().to_string();
-        if self.peek_char() == Some(&'=') {
-            c += "=";
+
+        match self.peek_char() {
+            Some(&'=') => {
+                c += "=";
+                self.advance();
+            }
+            Some(&'+') => {
+                c += "+";
+                self.advance();
+            }
+            Some(&'-') => {
+                c += "-";
+                self.advance();
+            }
+            _ => {}
         }
 
         let token_type = if let Some(op) = Operator::to_operator(&c) {
@@ -22,14 +34,17 @@ impl Lexer {
         };
 
         self.advance();
-        
+
         Token::new(token_type, self.line, start)
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::{lexer::Lexer, token::{Operator, Punctuation, TokenType}};
+    use crate::{
+        lexer::Lexer,
+        token::{Operator, Punctuation, TokenType},
+    };
 
     #[test]
     fn lexer_collects_operators() {
@@ -70,4 +85,16 @@ mod tests {
         }
     }
 
+    #[test]
+    fn lexer_collects_inc_dec() {
+        let input = "++".to_string();
+        let mut lexer = Lexer::new(input);
+
+        let operator = lexer.collect_operator_or_punctuation();
+        if let TokenType::Operator(op) = operator.token_type {
+            assert_eq!(op, Operator::Inc)
+        } else {
+            panic!("Token was not an operator")
+        }
+    }
 }

@@ -31,7 +31,10 @@ impl Lexer {
 
 #[cfg(test)]
 mod tests {
-    use crate::{lexer::Lexer, token::{Keyword, TokenType}};
+    use crate::{
+        lexer::Lexer,
+        token::{Keyword, TokenType},
+    };
 
     #[test]
     fn lexer_reads_an_identifier() {
@@ -44,7 +47,6 @@ mod tests {
         } else {
             panic!("Token was not an identifier")
         }
-
     }
 
     #[test]

@@ -23,7 +23,7 @@ impl Lexer {
             self.advance()
         }
     }
-    
+
     /// Skips a multiline comment
     pub(crate) fn skip_multi_line_comment(&mut self) {
         // Skip the initial "/*"
