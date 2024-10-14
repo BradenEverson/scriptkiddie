@@ -178,7 +178,8 @@ mod tests {
 
     #[test]
     fn lexer_tokenizes_functions() {
-        let mut input_file = std::fs::File::open("../test/functions.js").expect("Failed to read file");
+        let mut input_file =
+            std::fs::File::open("../test/functions.js").expect("Failed to read file");
         let mut text = String::new();
         input_file
             .read_to_string(&mut text)
@@ -201,7 +202,6 @@ mod tests {
             TokenType::Punctuation(Punctuation::CloseParen),
             TokenType::Punctuation(Punctuation::Semicolon),
             TokenType::Punctuation(Punctuation::CloseSquiggle),
-
             TokenType::Keyword(Keyword::Function),
             TokenType::Identifier("add".to_string()),
             TokenType::Punctuation(Punctuation::OpenParen),
@@ -216,7 +216,6 @@ mod tests {
             TokenType::Identifier("b".to_string()),
             TokenType::Punctuation(Punctuation::Semicolon),
             TokenType::Punctuation(Punctuation::CloseSquiggle),
-
             TokenType::Keyword(Keyword::Let),
             TokenType::Identifier("a".to_string()),
             TokenType::Operator(Operator::Assignment),
@@ -240,6 +239,5 @@ mod tests {
         ];
 
         assert_eq!(tokens, should_be)
-
     }
 }
