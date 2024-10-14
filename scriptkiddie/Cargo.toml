@@ -1,0 +1,11 @@
+[package]
+name = "scriptkiddie"
+edition = "2021"
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+clap = "4.5.20"
+
+[lints]
+workspace = true
