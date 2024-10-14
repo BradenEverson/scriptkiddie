@@ -175,4 +175,71 @@ mod tests {
 
         assert_eq!(tokens, should_be)
     }
+
+    #[test]
+    fn lexer_tokenizes_functions() {
+        let mut input_file = std::fs::File::open("../test/functions.js").expect("Failed to read file");
+        let mut text = String::new();
+        input_file
+            .read_to_string(&mut text)
+            .expect("Failed to read file");
+
+        let lexer = Lexer::new(text);
+        let tokens: Vec<_> = lexer.map(|token| token.token_type).collect();
+
+        let should_be = vec![
+            TokenType::Keyword(Keyword::Function),
+            TokenType::Identifier("foo".to_string()),
+            TokenType::Punctuation(Punctuation::OpenParen),
+            TokenType::Punctuation(Punctuation::CloseParen),
+            TokenType::Punctuation(Punctuation::OpenSquiggle),
+            TokenType::Identifier("Console".to_string()),
+            TokenType::Operator(Operator::Dot),
+            TokenType::Identifier("log".to_string()),
+            TokenType::Punctuation(Punctuation::OpenParen),
+            TokenType::String("Bar".to_string()),
+            TokenType::Punctuation(Punctuation::CloseParen),
+            TokenType::Punctuation(Punctuation::Semicolon),
+            TokenType::Punctuation(Punctuation::CloseSquiggle),
+
+            TokenType::Keyword(Keyword::Function),
+            TokenType::Identifier("add".to_string()),
+            TokenType::Punctuation(Punctuation::OpenParen),
+            TokenType::Identifier("a".to_string()),
+            TokenType::Punctuation(Punctuation::Comma),
+            TokenType::Identifier("b".to_string()),
+            TokenType::Punctuation(Punctuation::CloseParen),
+            TokenType::Punctuation(Punctuation::OpenSquiggle),
+            TokenType::Keyword(Keyword::Return),
+            TokenType::Identifier("a".to_string()),
+            TokenType::Operator(Operator::Add),
+            TokenType::Identifier("b".to_string()),
+            TokenType::Punctuation(Punctuation::Semicolon),
+            TokenType::Punctuation(Punctuation::CloseSquiggle),
+
+            TokenType::Keyword(Keyword::Let),
+            TokenType::Identifier("a".to_string()),
+            TokenType::Operator(Operator::Assignment),
+            TokenType::Number(100.0),
+            TokenType::Punctuation(Punctuation::Semicolon),
+            TokenType::Keyword(Keyword::Let),
+            TokenType::Identifier("b".to_string()),
+            TokenType::Operator(Operator::Assignment),
+            TokenType::Number(5.6),
+            TokenType::Punctuation(Punctuation::Semicolon),
+            TokenType::Keyword(Keyword::Let),
+            TokenType::Identifier("c".to_string()),
+            TokenType::Operator(Operator::Assignment),
+            TokenType::Identifier("add".to_string()),
+            TokenType::Punctuation(Punctuation::OpenParen),
+            TokenType::Identifier("a".to_string()),
+            TokenType::Punctuation(Punctuation::Comma),
+            TokenType::Identifier("b".to_string()),
+            TokenType::Punctuation(Punctuation::CloseParen),
+            TokenType::Punctuation(Punctuation::Semicolon),
+        ];
+
+        assert_eq!(tokens, should_be)
+
+    }
 }
