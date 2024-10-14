@@ -12,7 +12,7 @@ impl Lexer {
         let mut has_decimal = false;
 
         while let Some(c) = self.current_char() {
-            if c.is_digit(10) {
+            if c.is_ascii_digit() {
                 number_str.push(*c);
                 self.advance();
             } else if c == &'.' && !has_decimal {
