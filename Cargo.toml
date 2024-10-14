@@ -1,5 +1,5 @@
 [workspace]
-members = [ "scriptkiddie-lexer"]
+members = [ "scriptkiddie-lexer", "scriptkiddie-parser"]
 resolver = "2"
 
 [workspace.package]

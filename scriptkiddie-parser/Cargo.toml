@@ -1,0 +1,11 @@
+[package]
+name = "scriptkiddie-parser"
+edition = "2021"
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+scriptkiddie-lexer = { path = "../scriptkiddie-lexer"}
+
+[lints]
+workspace = true
