@@ -23,7 +23,7 @@ pub enum AstParseError {
     UnexpectedEof,
     /// When a token is not expected
     #[error("Unexpected token {0:?}")]
-    UnexpectedToken(Token)
+    UnexpectedToken(Token),
 }
 
 /// A parser that holds onto a mutable context of a Lexer
@@ -56,9 +56,7 @@ impl<'lex> Parser<'lex> {
             Some(token) => match &token.token_type {
                 TokenType::Keyword(Keyword::Let)
                 | TokenType::Keyword(Keyword::Const)
-                | TokenType::Keyword(Keyword::Var) => {
-                    self.parse_declaration()
-                }
+                | TokenType::Keyword(Keyword::Var) => self.parse_declaration(),
                 _ => self.parse_expression(),
             },
             None => Err(AstParseError::UnexpectedEof),

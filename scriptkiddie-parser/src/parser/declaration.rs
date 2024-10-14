@@ -71,7 +71,10 @@ impl<'lex> Parser<'lex> {
 mod tests {
     use scriptkiddie_lexer::lexer::Lexer;
 
-    use crate::{ast::{ASTNode, VariableKind}, parser::Parser};
+    use crate::{
+        ast::{ASTNode, VariableKind},
+        parser::Parser,
+    };
 
     #[test]
     fn parse_declarations() {
@@ -80,6 +83,13 @@ mod tests {
         let mut parser = Parser::from_lexer(&mut lexer);
 
         let parsed = parser.parse_program().expect("Failed to parse expression");
-        assert_eq!(ASTNode::Program(vec![ASTNode::VariableDeclaration { kind: VariableKind::Let, name: "a".into(), initializer: None }]), parsed)
+        assert_eq!(
+            ASTNode::Program(vec![ASTNode::VariableDeclaration {
+                kind: VariableKind::Let,
+                name: "a".into(),
+                initializer: None
+            }]),
+            parsed
+        )
     }
 }
