@@ -20,6 +20,8 @@ impl Lexer {
             let punc = Punctuation::to_puncutation(&c).unwrap();
             TokenType::Punctuation(punc)
         };
+
+        self.advance();
         
         Token::new(token_type, self.line, start)
     }

@@ -91,6 +91,8 @@ impl Iterator for Lexer {
 mod tests {
     use std::io::Read;
 
+    use crate::token::{Keyword, Operator, Punctuation, TokenType};
+
     use super::Lexer;
 
     #[test]
@@ -100,8 +102,30 @@ mod tests {
         input_file.read_to_string(&mut text).expect("Failed to read file");
         
         let lexer = Lexer::new(text);
-        let tokens: Vec<_> = lexer.collect();
+        let tokens: Vec<_> = lexer.map(|token| token.token_type).collect();
 
-        panic!("{:?}", tokens)
+        let should_be = vec![
+            TokenType::Keyword(Keyword::Let),
+            TokenType::Identifier("a".to_string()),
+            TokenType::Operator(Operator::Assignment),
+            TokenType::Number(100.0),
+            TokenType::Punctuation(Punctuation::Semicolon),
+
+            TokenType::Keyword(Keyword::Let),
+            TokenType::Identifier("b".to_string()),
+            TokenType::Operator(Operator::Assignment),
+            TokenType::Number(20.0),
+            TokenType::Punctuation(Punctuation::Semicolon),
+
+            TokenType::Keyword(Keyword::Let),
+            TokenType::Identifier("c".to_string()),
+            TokenType::Operator(Operator::Assignment),
+            TokenType::Identifier("a".to_string()),
+            TokenType::Operator(Operator::Add),
+            TokenType::Identifier("b".to_string()),
+            TokenType::Punctuation(Punctuation::Semicolon),
+        ];
+
+        assert_eq!(tokens, should_be)
     }
 }
