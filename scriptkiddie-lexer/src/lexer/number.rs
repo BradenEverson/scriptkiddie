@@ -26,11 +26,7 @@ impl Lexer {
 
         let number_value = number_str.parse::<f64>().unwrap_or(0.0);
 
-        Token {
-            token_type: TokenType::Number(number_value),
-            line: self.line,
-            column: start,
-        }
+        Token::new(TokenType::Number(number_value), self.line, start)
     }
 }
 

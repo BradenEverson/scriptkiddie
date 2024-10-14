@@ -1,6 +1,7 @@
 //! All Token primatives and utilities wrapped around these primatives
 
 /// A contextual token with location and typing
+#[derive(Clone, Debug, PartialEq)]
 pub struct Token {
     /// The token's type
     pub token_type: TokenType,
@@ -11,12 +12,13 @@ pub struct Token {
 }
 
 impl Token {
-    pub fn from_str(from: &str, line: usize, column: usize) -> Option<Self> {
-        todo!()
+    pub fn new(token_type: TokenType, line: usize, column: usize) -> Self {
+        Self { token_type, line, column }
     }
 }
 
 /// A single lexical token's type
+#[derive(Clone, Debug, PartialEq)]
 pub enum TokenType {
     Identifier(String),
     Number(f64),
@@ -27,6 +29,7 @@ pub enum TokenType {
 }
 
 /// A keyword token's variants
+#[derive(Clone, Debug, PartialEq)]
 pub enum Keyword {
     Let,
     Const,
@@ -49,6 +52,7 @@ impl Keyword {
 }
 
 /// All operation types
+#[derive(Clone, Debug, PartialEq)]
 pub enum Operator {
     Assignment,
     Not,

@@ -6,7 +6,7 @@ use super::Lexer;
 
 impl Lexer {
     /// Reads a complete string within two quote marks
-    pub fn read_string(&mut self) -> Token {
+    pub fn collect_string(&mut self) -> Token {
         let start = self.column;
         let mut result = String::new();
         self.advance();
@@ -37,11 +37,7 @@ impl Lexer {
             todo!("Return error for unclosed string")
         }
 
-        Token {
-            token_type: TokenType::String(result),
-            line: self.line,
-            column: start,
-        }
+        Token::new(TokenType::String(result), self.line, start) 
     }
 }
 
@@ -54,7 +50,7 @@ mod tests {
         let input = "\"Hello World!\"".to_string();
         let mut lexer = Lexer::new(input);
 
-        let string = lexer.read_string();
+        let string = lexer.collect_string();
         if let TokenType::String(val) = string.token_type {
             assert_eq!("Hello World!", val)
         } else {
@@ -67,7 +63,7 @@ mod tests {
         let input = "\"Hello \'World!\'\"".to_string();
         let mut lexer = Lexer::new(input);
 
-        let string = lexer.read_string();
+        let string = lexer.collect_string();
         if let TokenType::String(val) = string.token_type {
             assert_eq!("Hello 'World!'", val)
         } else {
