@@ -5,7 +5,7 @@ use crate::token::Token;
 pub mod keyword;
 pub mod number;
 pub mod string;
-pub mod whitespace;
+pub mod whitespace_comments;
 
 /// The lexer struct responsible for reading a stream of text and converting it into tokens. Can be
 /// treated as a token iterator
@@ -48,5 +48,10 @@ impl Lexer {
     /// Gets the current character at the current position
     fn current_char(&self) -> Option<&char> {
         self.input.get(self.pos)
+    }
+
+    /// Peeks at the next char
+    fn peek_char(&self) -> Option<&char> {
+        self.input.get(self.pos + 1)
     }
 }

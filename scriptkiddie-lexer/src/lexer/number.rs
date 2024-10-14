@@ -6,7 +6,7 @@ use super::Lexer;
 
 impl Lexer {
     /// Collects an entire number as a token
-    fn collect_number(&mut self) -> Token {
+    pub(crate) fn collect_number(&mut self) -> Token {
         let start = self.column;
         let mut number_str = String::new();
         let mut has_decimal = false;

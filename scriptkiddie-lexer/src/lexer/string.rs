@@ -6,7 +6,7 @@ use super::Lexer;
 
 impl Lexer {
     /// Reads a complete string within two quote marks
-    pub fn collect_string(&mut self) -> Token {
+    pub(crate) fn collect_string(&mut self) -> Token {
         let start = self.column;
         let mut result = String::new();
         self.advance();

@@ -6,7 +6,7 @@ use super::Lexer;
 
 impl Lexer {
     /// Reads an entire identifier/keyword and registers it as such
-    fn collect_identifier_or_keyword(&mut self) -> Token {
+    pub(crate) fn collect_identifier_or_keyword(&mut self) -> Token {
         let start = self.column;
         let mut result = String::new();
 
