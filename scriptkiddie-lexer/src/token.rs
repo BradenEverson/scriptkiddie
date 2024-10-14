@@ -39,6 +39,14 @@ pub enum Keyword {
     Const,
     Var,
     For,
+    Function,
+    If,
+    Else,
+    While,
+    Return,
+    Switch,
+    Case,
+    Break,
 }
 
 impl Keyword {
@@ -49,6 +57,13 @@ impl Keyword {
             "const" => Some(Keyword::Const),
             "var" => Some(Keyword::Var),
             "for" => Some(Keyword::For),
+            "function" => Some(Keyword::Function),
+            "if" => Some(Keyword::If),
+            "else" => Some(Keyword::Else),
+            "while" => Some(Keyword::While),
+            "switch" => Some(Keyword::Switch),
+            "return" => Some(Keyword::Return),
+            "case" => Some(Keyword::Break),
 
             _ => None,
         }
