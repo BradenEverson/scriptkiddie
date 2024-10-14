@@ -6,6 +6,7 @@ authors.workspace = true
 
 [dependencies]
 scriptkiddie-lexer = { path = "../scriptkiddie-lexer"}
+thiserror = "1.0.64"
 
 [lints]
 workspace = true

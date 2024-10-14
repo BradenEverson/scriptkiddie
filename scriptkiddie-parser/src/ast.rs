@@ -1,4 +1,4 @@
-//! AST Implementations
+//! AST Implementation
 
 use scriptkiddie_lexer::token::Operator;
 
