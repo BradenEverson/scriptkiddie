@@ -55,7 +55,8 @@ impl<'lex> Parser<'lex> {
         })
     }
 
-    fn consume_punctuation(&mut self, expected: Punctuation) -> Result<()> {
+    /// Consumes the ending punctuation of a line
+    pub(crate) fn consume_punctuation(&mut self, expected: Punctuation) -> Result<()> {
         match self.lexer.next() {
             Some(Token {
                 token_type: TokenType::Punctuation(punc),

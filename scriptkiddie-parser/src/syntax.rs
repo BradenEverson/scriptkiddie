@@ -5,7 +5,7 @@ use std::iter::Peekable;
 
 use scriptkiddie_lexer::lexer::Lexer;
 
-use crate::ast::ASTNode;
+use crate::{ast::ASTNode, parser::Result};
 
 /// Dynamic array of all syntax patterns we want to check on parse
 pub const SYNTAX_PATTERNS: &[Box<dyn SyntaxGrammar>] = &[];
@@ -16,7 +16,7 @@ pub const SYNTAX_PATTERNS: &[Box<dyn SyntaxGrammar>] = &[];
 pub trait SyntaxGrammar {
     /// Identifies if the current point of the lexer matches the desired pattern, constructing an
     /// ASTNode from it if so
-    fn parse_grammar(&self, lexer: Peekable<&mut Lexer>) -> Option<ASTNode>;
+    fn parse_grammar(&self, lexer: &mut Peekable<&mut Lexer>) -> Result<ASTNode>;
     /// Immutably checks if the lexer's current position (plus peeks) matches the syntax pattern
     fn matches_pattern(&self, lexer: &Peekable<&mut Lexer>) -> bool;
 }

@@ -24,6 +24,9 @@ pub enum AstParseError {
     /// When a token is not expected
     #[error("Unexpected token {0:?}")]
     UnexpectedToken(Token),
+    /// When a token pattern is not registered and therefore cannot be constructed into an ASTNode
+    #[error("Token pattern not recognized")]
+    UnknownTokenPattern,
 }
 
 /// A parser that holds onto a mutable context of a Lexer
