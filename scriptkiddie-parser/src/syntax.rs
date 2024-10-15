@@ -1,14 +1,18 @@
 //! Trait definitions for all expression grammar. An instance of every struct that implements this
 //! is held in a static array to be used at parse-time
 
-use std::iter::Peekable;
+use std::{cell::LazyCell, iter::Peekable};
 
+use binary::BinaryExpr;
 use scriptkiddie_lexer::lexer::Lexer;
 
 use crate::{ast::ASTNode, parser::Result};
 
+pub mod binary;
+
 /// Dynamic array of all syntax patterns we want to check on parse
-pub const SYNTAX_PATTERNS: &[Box<dyn SyntaxGrammar>] = &[];
+pub const SYNTAX_PATTERNS: LazyCell<[Box<dyn SyntaxGrammar>; 1]> =
+    LazyCell::new(|| [Box::new(BinaryExpr)]);
 
 /// The trait that defines what a syntax pattern looks like and what expression it may map to.
 /// Defines methods both for identifying if the pattern is valid for a current spot in a Token
