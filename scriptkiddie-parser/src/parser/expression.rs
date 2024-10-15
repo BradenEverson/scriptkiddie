@@ -9,7 +9,7 @@ impl<'lex> Parser<'lex> {
     pub(crate) fn parse_expression(&mut self) -> Result<ASTNode> {
         for expression in SYNTAX_PATTERNS {
             if expression.matches_pattern(&self.lexer) {
-                return expression.parse_grammar(&mut self.lexer)
+                return expression.parse_grammar(&mut self.lexer);
             }
         }
         Err(AstParseError::UnknownTokenPattern)
