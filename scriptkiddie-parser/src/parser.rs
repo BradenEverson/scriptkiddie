@@ -1,11 +1,7 @@
 //! Parser struct definitions
 
-use std::iter::Peekable;
 
-use scriptkiddie_lexer::{
-    lexer::Lexer,
-    token::{Keyword, Token, TokenType},
-};
+use scriptkiddie_lexer::token::{Keyword, Token, TokenType};
 
 use crate::ast::ASTNode;
 
