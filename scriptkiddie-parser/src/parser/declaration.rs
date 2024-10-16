@@ -9,7 +9,7 @@ use super::{AstParseError, Parser, Result};
 impl<'lex> Parser<'lex> {
     /// Parses a variable declaration with a scope
     pub(crate) fn parse_declaration(&mut self) -> Result<ASTNode> {
-        let kind = match self.lexer.next() {
+        let kind = match self.next() {
             Some(Token {
                 token_type: TokenType::Keyword(Keyword::Let),
                 ..
@@ -26,7 +26,7 @@ impl<'lex> Parser<'lex> {
             None => return Err(AstParseError::UnexpectedEof),
         };
 
-        let name = match self.lexer.next() {
+        let name = match self.next() {
             Some(Token {
                 token_type: TokenType::Identifier(name),
                 ..
@@ -38,9 +38,9 @@ impl<'lex> Parser<'lex> {
         let initializer = if let Some(Token {
             token_type: TokenType::Operator(Operator::Assignment),
             ..
-        }) = self.lexer.peek()
+        }) = self.peek(1)
         {
-            self.lexer.next();
+            self.next();
             Some(Box::new(self.parse_expression()?))
         } else {
             None
@@ -57,7 +57,7 @@ impl<'lex> Parser<'lex> {
 
     /// Consumes the ending punctuation of a line
     pub(crate) fn consume_punctuation(&mut self, expected: Punctuation) -> Result<()> {
-        match self.lexer.next() {
+        match self.next() {
             Some(Token {
                 token_type: TokenType::Punctuation(punc),
                 ..
@@ -80,8 +80,9 @@ mod tests {
     #[test]
     fn parse_declarations() {
         let input = "let a;".to_string();
-        let mut lexer = Lexer::new(input);
-        let mut parser = Parser::from_lexer(&mut lexer);
+        let lexer = Lexer::new(input);
+        let tokens: Vec<_> = lexer.collect();
+        let mut parser = Parser::new(&tokens);
 
         let parsed = parser.parse_program().expect("Failed to parse expression");
         assert_eq!(

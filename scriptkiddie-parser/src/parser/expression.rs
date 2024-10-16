@@ -8,8 +8,8 @@ impl<'lex> Parser<'lex> {
     /// Parses an expression as an AST Node
     pub(crate) fn parse_expression(&mut self) -> Result<ASTNode> {
         for expression in SYNTAX_PATTERNS.iter() {
-            if expression.matches_pattern(&self.lexer) {
-                return expression.parse_grammar(&mut self.lexer);
+            if expression.matches_pattern(&self.tokens, self.place) {
+                return expression.parse_grammar(&self.tokens, &mut self.place);
             }
         }
         Err(AstParseError::UnknownTokenPattern)

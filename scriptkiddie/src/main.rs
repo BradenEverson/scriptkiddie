@@ -28,7 +28,8 @@ impl Config {
 
 fn main() {
     let lines = Config::parse().lines();
-    let mut lexer = Lexer::new(lines);
-    let mut parser = ASTParser::from_lexer(&mut lexer);
+    let lexer = Lexer::new(lines);
+    let tokens: Vec<_> = lexer.collect();
+    let mut parser = ASTParser::new(&tokens);
     let _ast = parser.parse_program();
 }

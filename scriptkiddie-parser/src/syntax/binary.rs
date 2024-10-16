@@ -6,20 +6,10 @@ use super::SyntaxGrammar;
 pub struct BinaryExpr;
 
 impl SyntaxGrammar for BinaryExpr {
-    fn parse_grammar(
-        &self,
-        lexer: &mut std::iter::Peekable<&mut scriptkiddie_lexer::lexer::Lexer>,
-    ) -> crate::parser::Result<crate::ast::ASTNode> {
+    fn parse_grammar(&self, tokens: &[scriptkiddie_lexer::token::Token], place: &mut usize) -> crate::parser::Result<crate::ast::ASTNode> {
         todo!()
     }
-
-    fn matches_pattern(
-        &self,
-        lexer: &std::iter::Peekable<&mut scriptkiddie_lexer::lexer::Lexer>,
-    ) -> bool {
-        // A binary expression should have the form: 
-        // E op E 
-        // where E: Expression and op: Operator
+    fn matches_pattern(&self, tokens: &[scriptkiddie_lexer::token::Token], place: usize) -> bool {
         todo!()
     }
 }

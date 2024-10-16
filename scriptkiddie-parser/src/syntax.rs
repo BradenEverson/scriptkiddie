@@ -1,10 +1,10 @@
 //! Trait definitions for all expression grammar. An instance of every struct that implements this
 //! is held in a static array to be used at parse-time
 
-use std::{cell::LazyCell, iter::Peekable};
+use std::cell::LazyCell;
 
 use binary::BinaryExpr;
-use scriptkiddie_lexer::lexer::Lexer;
+use scriptkiddie_lexer::token::Token;
 
 use crate::{ast::ASTNode, parser::Result};
 
@@ -20,7 +20,7 @@ pub const SYNTAX_PATTERNS: LazyCell<[Box<dyn SyntaxGrammar>; 1]> =
 pub trait SyntaxGrammar {
     /// Identifies if the current point of the lexer matches the desired pattern, constructing an
     /// ASTNode from it if so
-    fn parse_grammar(&self, lexer: &mut Peekable<&mut Lexer>) -> Result<ASTNode>;
+    fn parse_grammar(&self, tokens: &[Token], place: &mut usize) -> Result<ASTNode>;
     /// Immutably checks if the lexer's current position (plus peeks) matches the syntax pattern
-    fn matches_pattern(&self, lexer: &Peekable<&mut Lexer>) -> bool;
+    fn matches_pattern(&self, tokens: &[Token], place: usize) -> bool;
 }
